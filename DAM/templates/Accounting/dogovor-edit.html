@@ -1,0 +1,19 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}Создать компанию{% endblock %}
+
+
+{% block content %}<h1>Создать компанию</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.nomer_dogovora }}<br>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <span>{{ error }}</span>
+</form>
+
+
+
+<a href="/">Главная</a>
+
+{% endblock %}

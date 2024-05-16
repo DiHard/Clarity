@@ -1,0 +1,64 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}Создать компанию{% endblock %}
+
+
+{% block content %}
+<h1 class="mb-4">{{ organization.short_name }}</h1>
+
+<div class="card border-light shadow p-3 bg-body rounded">
+    <h4 class="ms-2">Редактировать реквизиты организации </h4>
+  <div class="m-2">
+<form method="post">
+    {% csrf_token %}
+  <div class="mb-3">
+
+  <label class="form-label">Сокращенное наименование организации</label>
+{{ form.short_name }}
+      </div>
+
+
+        <div class="mb-3">
+
+  <label class="form-label">Полное наименование организации</label>
+{{ form.full_name }}
+      </div>
+
+    <div class="mb-3">
+
+  <label class="form-label">ИНН организации</label>
+ {{ form.inn }}
+      </div>
+
+            <div class="mb-3">
+
+  <label class="form-label">КПП организации</label>
+ {{ form.kpp }}
+      </div>
+            <div class="mb-3">
+
+  <label class="form-label">Юридический адрес</label>
+ {{ form.ur_adres }}
+      </div>
+        <div class="mb-3">
+         <label class="form-label">Должность управляющего лица</label>
+ {{ form.management_post }}
+      </div>
+        <div class="mb-3">
+     <label class="form-label">ФИО управляющего лица</label>
+ {{ form.management_full_name }}
+      </div>
+
+  <div class="d-grid gap-2 d-md-block">
+      <button type="submit"  class="btn btn-success" type="button">Сохранить</button>
+  <a class="btn btn-light" href="/organization/{{ organization.id }}">Отмена</a>
+<span class="text-danger ms-3 fs-5" >{{ error }}</span>
+</div>
+
+</form>
+</div>
+</div>
+
+
+{% endblock %}

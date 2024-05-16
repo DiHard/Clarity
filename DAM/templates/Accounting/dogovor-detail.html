@@ -1,0 +1,48 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}Станица о нас{% endblock %}
+
+
+{% block content %}<h1 class="mb-4">{{ dogovor_list.nomer_dogovora }} с компанией {{ dogovor_list.organization.short_name }}</h1>
+
+
+
+<div class="card border-light shadow p-3 bg-body rounded">
+    <h4 class="ms-2">Информация о договоре</h4>
+        <table class="table table-hover ">
+  <tbody>
+    <tr>
+      <td width="20%" >Номер договора:</td>
+      <td>{{ dogovor_list.nomer_dogovora }}</td>
+
+    </tr>
+    <tr>
+      <td>Дата подписания:</td>
+      <td>{{ dogovor_list.date_of_signing }}</td>
+    </tr>
+    <tr>
+      <td>Сайт:</td>
+      <td>{{ dogovor_list.web_site }}</td>
+    </tr>
+    <tr>
+      <td>Услуга:</td>
+      <td>{{ dogovor_list.service_type }}</td>
+    </tr>
+    <tr>
+      <td>Организация:</td>
+      <td> <a href="/organization/{{ dogovor_list.organization.id }}">{{ dogovor_list.organization.short_name }}</a></td>
+    </tr>
+  </tbody>
+</table>
+    <a class="btn btn-outline-primary w-25 btn-sm mb-3" role="button" href="{% url 'dogovor-edit' dogovor_list.pk %}">Редактировать информацию о договоре</a>
+
+</div>
+
+
+<a href="/dogovor/{{ dogovor_list.id }}/generate">Сгенерировать договор в формате docx</a></br>
+<!--<a href="/dogovor/{{ dogovor_list.id }}/edit">Редактировать договор</a>-->
+
+<a href="{% url 'dogovor-edit' dogovor_list.pk %}">Редактировать договор</a>
+
+{% endblock %}

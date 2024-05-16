@@ -1,0 +1,58 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block content %}
+<h1>Юридические лица</h1>
+</br>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+{% for el in organization_list %}
+      <div class="col">
+ <div class="card border-light shadow p-3 bg-body rounded">
+<div class="card-body">
+    <h5 class="card-title">{{ el.short_name }}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">{{ el.inn }}</h6>
+    <p class="card-text">Общие заметки по организации</p>
+    <a class="card-link" href="/organization/{{ el.id }}"> Перейти в карточку организации </a>
+</div>
+     </div>
+          </div>
+{% endfor %}
+
+     </div>
+</br></br>
+<h1>Договоры</h1>
+</br>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+{% for el in dogovor_list %}
+<div class="col">
+<div class="card border-light shadow p-3 bg-body rounded">
+<div class="card-body">
+
+    <h5 class="card-title">{{ el.nomer_dogovora }}</h5>
+    <a class="card-link" href="/dogovor/{{ el.id }}"> Перейти в карточку договора </a>
+</div>
+ </div>
+    </div>
+{% endfor %}
+</div>
+</br>
+<h1>Оказываемые услуги</h1>
+</br>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+{% for el in service_list %}
+      <div class="col">
+ <div class="card border-light shadow p-3 bg-body rounded">
+<div class="card-body">
+
+    <a href="/service/{{ el.id }}">{{ el.price }} </a>
+    <p>Период: с {{ el.date_start }} по {{ el.date_end }}.</p>
+
+</div>
+     </div>
+     </div>
+{% endfor %}
+</div>
+{% endblock %}

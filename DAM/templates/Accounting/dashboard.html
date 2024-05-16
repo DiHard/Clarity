@@ -1,0 +1,62 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block content %}<h1>Дашборд</h1>
+
+<h2>Счета без оплаты</h2>
+
+<div class="row g-3 mb-3">
+
+{% for el in service_list %}
+    {% if el.full_payment is False %}
+<div class="col-md-6 col-xxl-3">
+    <div class="card h-md-100 ecommerce-card-min-width">
+        <div class="card-header pb-0">
+            <h6 class="mb-0 mt-2 d-flex align-items-center">Weekly Sales</h6>
+            </div>
+        <div class="card-body d-flex flex-column justify-content-end">
+                  <div class="row">
+                    <div class="col">
+                      <p class="font-sans-serif lh-1 mb-1 fs-5"><a href="/service/{{ el.id }}">{{ el.price }} </a> {{ el.full_payment }}</p><span class="badge badge-subtle-success rounded-pill fs-11">+3.5%</span>
+                    </div>
+
+                  </div>
+                </div>
+   <p>  </p>
+   <p> <a href="/dogovor/{{ el.dogovor.id }}">{{ el.dogovor.nomer_dogovora }} </a>  </p>
+</div>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+
+<!--<h2>Юридические лица</h2>-->
+<!--{% for el in organization_list %}-->
+<!--<div class="alert alert-warning mt-2">-->
+<!--&lt;!&ndash;    <h3>{{ el.full_name }}</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>{{ el.inn }}</p>&ndash;&gt;-->
+<!--    <a href="/organization/{{ el.id }}">{{ el.full_name }} </a>-->
+<!--</div>-->
+<!--{% endfor %}-->
+
+<!--<h2>Договоры</h2>-->
+<!--{% for el in dogovor_list %}-->
+<!--<div class="alert alert-warning mt-2">-->
+<!--    <h3>{{ el.full_name }}</h3>-->
+<!--    <a href="/dogovor/{{ el.id }}">{{ el.nomer_dogovora }} </a>-->
+<!--</div>-->
+<!--{% endfor %}-->
+
+<!--<h2>Оказываемые услуги</h2>-->
+<!--{% for el in service_list %}-->
+<!--<div class="alert alert-warning mt-2">-->
+<!--    <a href="/service/{{ el.id }}">{{ el.price }} </a>-->
+<!--    <p>Период: с {{ el.date_start }} по {{ el.date_end }}.</p>-->
+
+<!--</div>-->
+<!--{% endfor %}-->
+
+{% endblock %}

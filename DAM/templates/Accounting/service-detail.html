@@ -1,0 +1,22 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}Станица о нас{% endblock %}
+
+
+{% block content %}<h1>Договор</h1>
+
+
+
+<div class="alert alert-warning mt-2">
+    <h3>{{ service_list.price }}</h3>
+   <p> Договор
+       <a href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a> -
+    {{ service_list.service_name }}
+   </p>
+    <p>Период: с {{ service_list.date_start }} по {{ service_list.date_end }}.</p>
+    <p>Организация: <a href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></p>
+
+</div>
+
+{% endblock %}

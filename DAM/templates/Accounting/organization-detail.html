@@ -1,0 +1,53 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}Станица о нас{% endblock %}
+
+
+{% block content %}<h1 class="mb-4">{{ organization_list.short_name }}</h1>
+
+
+<div class="card border-light shadow p-3 bg-body rounded">
+<h4 class="ms-2">Реквизиты предприятия</h4>
+    <table class="table table-hover ">
+  <tbody>
+    <tr>
+      <td width="20%" >Полное наименование:</td>
+      <td>{{ organization_list.full_name }}</td>
+
+    </tr>
+    <tr>
+      <td>ИНН:</td>
+      <td>{{ organization_list.inn }}</td>
+
+    </tr>
+    <tr>
+      <td>КПП:</td>
+      <td>{{ organization_list.kpp }}</td>
+
+    </tr>
+      <tr>
+      <td>Юридический адрес:</td>
+      <td>{{ organization_list.ur_adres }}</td>
+    </tr>
+      <tr>
+      <td>Управляющее лицо:</td>
+      <td>{{ organization_list.management_post }} {{ organization_list.management_full_name }}</td>
+    </tr>
+  </tbody>
+</table>
+<a class="btn btn-outline-primary w-25 btn-sm mb-3" role="button" href="{% url 'organization-edit' organization_list.pk %}">Редактировать реквизиты организации</a>
+
+    <p>Договоры с организацией:
+    {% for el in dogovor_list %}
+    </br><a href="/dogovor/{{ el.id }}">{{ el.nomer_dogovora }}</a>
+{% endfor %}</p>
+     <p>Услуги оказанные организации:
+    {% for el in service_list %}
+    </br><a href="/service/{{ el.id }}">{{ el.price }}</a> - {{ el.dogovor.nomer_dogovora }}
+{% endfor %}</p>
+
+
+</div>
+
+{% endblock %}
