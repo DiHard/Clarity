@@ -33,6 +33,7 @@ class Dogovor(models.Model):
     date_of_signing = models.DateField('Дата начала действия договора')
     web_site = models.CharField('Веб сайт', max_length=250)
     contract_completed = models.BooleanField('Договор завершен')
+    basic_price = models.IntegerField('Цена догвора')
     service_type = models.ForeignKey(Service_type, on_delete=models.DO_NOTHING)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
