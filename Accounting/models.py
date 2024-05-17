@@ -11,7 +11,7 @@ class Organization(models.Model):
     management_post = models.CharField('Должность управляющего лица', max_length=250)
 
     def __str__(self):
-        return self.full_name
+        return self.short_name
 
     class Meta:
         verbose_name = "Юридическое лицо"
@@ -32,7 +32,7 @@ class Dogovor(models.Model):
     nomer_dogovora = models.CharField('Номер договора', max_length=250)
     date_of_signing = models.DateField('Дата начала действия договора')
     web_site = models.CharField('Веб сайт', max_length=250)
-    contract_completed = models.BooleanField('Договор завершен')
+    contract_completed = models.BooleanField('Активный договор')
     basic_price = models.IntegerField('Цена догвора')
     service_type = models.ForeignKey(Service_type, on_delete=models.DO_NOTHING)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)

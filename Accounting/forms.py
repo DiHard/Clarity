@@ -1,5 +1,5 @@
 from .models import Organization, Dogovor
-from django.forms import ModelForm, TextInput, Textarea
+from django.forms import ModelForm, TextInput, DateInput, URLInput, CheckboxInput, Select
 
 
 class OrganizationForm(ModelForm):
@@ -41,9 +41,33 @@ class OrganizationForm(ModelForm):
 class DogovorForm(ModelForm):
     class Meta:
         model = Dogovor
-        fields = ['nomer_dogovora']
-        widgets = {'nomer_dogovora': TextInput(attrs={
-            'class': 'from-control',
-            'placeholder': 'Введите название'
-        })
+        fields = ['nomer_dogovora', 'date_of_signing', 'web_site', 'contract_completed', 'basic_price', 'service_type', 'organization']
+        widgets = {
+            'nomer_dogovora': TextInput(attrs={
+                'class': 'form-control'
+                }),
+            'date_of_signing': DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'dd.mm.yyyy'
+                }),
+            'web_site': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'site.ru'
+                }),
+            'contract_completed': CheckboxInput(attrs={
+                'class': "form-check-input",
+                'type': "checkbox",
+                'role': "switch"
+                }),
+            'basic_price': TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': '0.00'
+                }),
+            'service_type': Select(attrs={
+                'class': 'form-select'
+                }),
+            'organization': Select(attrs={
+                'class': 'form-select'
+                })
+
         }

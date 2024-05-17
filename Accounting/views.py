@@ -103,6 +103,7 @@ def dogovor_edit(request, pk):
     form.nomer_dogovora = dogovor.nomer_dogovora  # Это определяет какими значениями будет предзаполнена форма при загрузке
     context = {
         'form': form,
+        'dogovor': dogovor,
         'error': error
     }
     return render(request, 'Accounting/dogovor-edit.html', context)
