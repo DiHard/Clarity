@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
-from .forms import OrganizationForm, DogovorForm
-from .generate import generate, translit
+from django.db.models import F
+from .forms import OrganizationForm, DogovorForm, ServiceForm
+from .generate import generate, translit, period
 
 from .models import Organization, Dogovor, Service
 
@@ -37,11 +37,21 @@ def about(request):
 
 def organization_detail(request, pk):
     # Функция запускает детальную страницу Организации
-    organization_list = Organization.objects.get(
-        id=pk)  # создаем список, который содержит данные организации по переданному ID
-    dogovor_list = Dogovor.objects.filter(
-        organization=organization_list)  # Создаем список всех договоров организации
+    # создаем список, который содержит данные организации по переданному ID
+    organization_list = Organization.objects.get(id=pk)
+    # Создаем список всех договоров организации
+    dogovor_list = Dogovor.objects.filter(organization=organization_list)
+    # Создаем список всех услуг организации
     service_list = Service.objects.filter(dogovor__in=dogovor_list)
+
+    # Добавляем в список услгу расчет задолженности
+    for el in service_list:
+        el.debt = el.price - el.payment_made
+    # Добавляем в список услгу расчет периода
+    for el in service_list:
+        el.period = (el.date_end - el.date_start).days + 1
+
+
     return render(request, 'Accounting/organization-detail.html',
                   {'organization_list': organization_list, 'dogovor_list': dogovor_list,
                    'service_list': service_list})
@@ -82,10 +92,16 @@ def organization_create(request):
     }
     return render(request, 'Accounting/organization-create.html', context)
 
+
 def dogovor_detail(request, pk):
     # Функция запускает детальную страницу Договра
     dogovor_list = Dogovor.objects.get(id=pk)
-    return render(request, 'Accounting/dogovor-detail.html', {'dogovor_list': dogovor_list})
+    service_list = Service.objects.filter(dogovor=dogovor_list)
+    context = {
+        'dogovor_list': dogovor_list,
+        'service_list': service_list
+    }
+    return render(request, 'Accounting/dogovor-detail.html', context)
 
 
 def dogovor_edit(request, pk):
@@ -100,7 +116,6 @@ def dogovor_edit(request, pk):
         else:
             error = 'Форма была неверной'
     form = DogovorForm(instance=dogovor)
-    form.nomer_dogovora = dogovor.nomer_dogovora  # Это определяет какими значениями будет предзаполнена форма при загрузке
     context = {
         'form': form,
         'dogovor': dogovor,
@@ -110,6 +125,22 @@ def dogovor_edit(request, pk):
 
 
 
+def dogovor_create(request):
+    error = ''
+    if request.method == 'POST':
+        form = DogovorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            error = 'Форма была неверной'
+
+    form = DogovorForm()
+    context = {
+        'form': form,
+        'error': error
+    }
+    return render(request, 'Accounting/dogovor-create.html', context)
 
 def dogovor_generate(request, pk):
     dogovor_list = Dogovor.objects.get(id=pk)
@@ -134,4 +165,46 @@ def dogovor_generate(request, pk):
 def service_detail(request, pk):
     # Функция запускает детальную страницу Услуги
     service_list = Service.objects.get(id=pk)
+    # Считаем сколько дней период между датами
+    service_list.period = (service_list.date_end - service_list.date_start).days + 1
+    # Считаем остаток задолжености
+    service_list.debt = service_list.price - service_list.payment_made
     return render(request, 'Accounting/service-detail.html', {'service_list': service_list})
+
+
+def service_edit(request, pk):
+    # Редактирование договора
+    service = Service.objects.get(id=pk)
+    error = ''
+    if request.method == 'POST':
+        form = ServiceForm(request.POST, instance=service)
+        if form.is_valid():
+            form.save()
+            return redirect('service-detail', pk=pk)
+        else:
+            error = 'Форма была неверной'
+    form = ServiceForm(instance=service)
+    context = {
+        'form': form,
+        'service': service,
+        'error': error
+    }
+    return render(request, 'Accounting/service-edit.html', context)
+
+
+def service_create(request):
+    error = ''
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            error = 'Форма была неверной'
+
+    form = ServiceForm()
+    context = {
+        'form': form,
+        'error': error
+    }
+    return render(request, 'Accounting/service-create.html', context)

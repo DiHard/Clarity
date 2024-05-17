@@ -42,12 +42,45 @@
     {% for el in dogovor_list %}
     </br><a href="/dogovor/{{ el.id }}">{{ el.nomer_dogovora }}</a>
 {% endfor %}</p>
-     <p>Услуги оказанные организации:
-    {% for el in service_list %}
-    </br><a href="/service/{{ el.id }}">{{ el.price }}</a> - {{ el.dogovor.nomer_dogovora }}
-{% endfor %}</p>
+    </div>
+
+{% if service_list %}
+<div class="card border-light shadow p-3 bg-body rounded mt-4">
+<h4 class="ms-2">Неоплаченные счета по организации</h4>
 
 
+<div class="card-body px-0 py-0">
+<div class="table-responsive scrollbar">
+    <table class="table table-sm fs-10 mb-0 overflow-hidden">
+        <thead >
+            <tr>
+                <th class="bg-secondary-subtle">Дата начала</th>
+                <th class="bg-secondary-subtle">Период</th>
+                <th class="bg-secondary-subtle">Договор</th>
+                <th class="bg-secondary-subtle">Услуга</th>
+                <th class="bg-secondary-subtle text-center">Сумма счета</th>
+                <th class="bg-secondary-subtle text-center">Задолженность</th>
+                <th class="bg-secondary-subtle text-center">Информация</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for el in service_list %}
+<tr>
+    <td>{{ el.date_start }}</td>
+    <td>{{ el.period }} дней</td>
+    <td><a href="/dogovor/{{ el.dogovor.id }}">{{ el.dogovor.nomer_dogovora }}</a> </td>
+    <td>{{ el.dogovor.service_type }}</td>
+    <td class="text-center">{{ el.price }}</td>
+    <td class="text-center">{{ el.debt }}</td>
+    <td class="text-center"><a class="btn btn-outline-primary btn-sm" role="button" href="{% url 'service-detail' el.pk %}">Подробнее</a></td>
+
+</tr>
+{% endfor %}
+        </tbody>
+    </table>
 </div>
+</div>
+</div>
+{% endif %}
 
 {% endblock %}

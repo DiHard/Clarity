@@ -1,4 +1,5 @@
 from docxtpl import DocxTemplate
+
 # Библиотека: pip install docxtpl
 # pip install transliterate
 
@@ -27,3 +28,9 @@ def generate(dogovor_list):
     doc.render(context)
     doc.save("static/Generate/generated.docx")
 
+def period(service_list):
+    service_list.period = (service_list.date_end - service_list.date_start).days
+    # period = service_list.period
+    # service_list.period = period.days
+    # service_list.period = period.strftime('%j')
+    return service_list

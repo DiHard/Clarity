@@ -4,7 +4,10 @@
 {% block title %}Станица о нас{% endblock %}
 
 
-{% block content %}<h1 class="mb-4">{{ dogovor_list.nomer_dogovora }} с компанией {{ dogovor_list.organization.short_name }}</h1>
+{% block content %}
+
+
+<h1 class="mb-4">{{ dogovor_list.nomer_dogovora }} с компанией {{ dogovor_list.organization.short_name }}</h1>
 
 
 
@@ -30,19 +33,36 @@
       <td>{{ dogovor_list.service_type }}</td>
     </tr>
     <tr>
+    <tr>
+      <td>Стоимость:</td>
+      <td>{{ dogovor_list.basic_price }} рублей</td>
+    </tr>
+    <tr>
       <td>Организация:</td>
       <td> <a href="/organization/{{ dogovor_list.organization.id }}">{{ dogovor_list.organization.short_name }}</a></td>
     </tr>
+    <tr>
+      <td>Статус договора:</td>
+      <td>{% if dogovor_list.contract_completed is True %} 🟢 Действующий договор {% else %} 🔴 Недействующий договр {% endif %}</td>
+    </tr>
   </tbody>
 </table>
-    <a class="btn btn-outline-primary w-25 btn-sm mb-3" role="button" href="{% url 'dogovor-edit' dogovor_list.pk %}">Редактировать информацию о договоре</a>
 
+<div class="d-grid gap-2 d-md-block">
+  <a class="btn btn-outline-primary w-25 btn-sm mb-2" role="button" href="{% url 'dogovor-edit' dogovor_list.pk %}">Редактировать информацию о договоре</a>
+  <a class="btn btn-outline-success w-25 btn-sm mb-2" role="button" href="/dogovor/{{ dogovor_list.id }}/generate">Сгенерировать договор в формате docx</a>
+</div>
+
+ <p>Услуги оказанные организации:
+{% for el in service_list %}
+    </br><a href="/service/{{ el.id }}">{{ el.price }}</a>
+{% endfor %}</p>
 </div>
 
 
-<a href="/dogovor/{{ dogovor_list.id }}/generate">Сгенерировать договор в формате docx</a></br>
-<!--<a href="/dogovor/{{ dogovor_list.id }}/edit">Редактировать договор</a>-->
 
-<a href="{% url 'dogovor-edit' dogovor_list.pk %}">Редактировать договор</a>
+
+
+
 
 {% endblock %}

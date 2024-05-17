@@ -1,21 +1,60 @@
 {% extends 'Accounting/base.html' %}
 
 
-{% block title %}Станица о нас{% endblock %}
+{% block title %}Информация об услуге{% endblock %}
 
 
-{% block content %}<h1>Договор</h1>
+{% block content %}<h1 class="mb-4">Услуга</h1>
 
+<div class="card border-light shadow p-3 bg-body rounded">
+    <h4 class="ms-2">Информация об услуге</h4>
+        <table class="table table-hover ">
+<tbody>
+    <tr>
+      <td width="20%" >Услуга:</td>
+      <td>{{ service_list.service_name }}</td>
+    </tr>
+    <tr>
+      <td width="20%" >Период:</td>
+      <td>{{ service_list.period }} календарных дней. С {{ service_list.date_start }} по {{ service_list.date_end }}.</td>
+    </tr>
+    <tr>
+      <td width="20%" >Задолженность:</td>
+      <td>{{ service_list.debt }} рублей</td>
+    </tr>
+    <tr>
+    <tr>
+      <td width="20%" >Сумма по счету:</td>
+      <td>{{ service_list.price }} рублей </td>
+    </tr>
+    <tr>
+      <td width="20%" >Частичная оплата счета:</td>
+      <td>{{ service_list.payment_made }} рублей</td>
+    </tr>
+    <tr>
+      <td width="20%" >Договор:</td>
+      <td><a href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a>
+    </td>
+    </tr>
+    <tr>
+      <td width="20%" >Организация:</td>
+      <td><a href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></td>
+    </tr>
+    <tr>
+      <td width="20%" >Счет полностью оплачен:</td>
+      <td>{{ service_list.full_payment }}</td>
+    </tr>
+    <tr>
+      <td width="20%" >Акт подписан:</td>
+      <td>{{ service_list.act_approved }}</td>
+    </tr>
+</tbody>
+</table>
 
-
-<div class="alert alert-warning mt-2">
-    <h3>{{ service_list.price }}</h3>
-   <p> Договор
-       <a href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a> -
-    {{ service_list.service_name }}
-   </p>
-    <p>Период: с {{ service_list.date_start }} по {{ service_list.date_end }}.</p>
-    <p>Организация: <a href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></p>
+<div class="d-grid gap-2 d-md-block">
+  <a class="btn btn-outline-primary w-25 btn-sm mb-2" role="button" href="{% url 'service-edit' service_list.pk %}">Редактировать информацию об услуге</a>
+  <a class="btn btn-outline-success w-25 btn-sm mb-2" role="button" href="/service/{{ service_list.id }}/generate">Сгенерировать договор в формате docx</a>
+</div>
 
 </div>
 

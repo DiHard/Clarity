@@ -52,7 +52,7 @@ class Dogovor(models.Model):
 
 
 class Service(models.Model):
-    service_name = models.CharField('Название оказываемой услуги', max_length=250)
+    service_name = models.CharField('Название оказываемой услуги для счета и Акта', max_length=250)
     date_start = models.DateField('Дата начала оказания услуги')
     date_end = models.DateField('Дата окончания оказания услуги')
     price = models.IntegerField('Оплата за услугу')
