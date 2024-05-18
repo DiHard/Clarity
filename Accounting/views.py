@@ -1,8 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.db.models import F
 from .forms import OrganizationForm, DogovorForm, ServiceForm
-from .generate import generate, translit, period
+from .generate import generate, translit, generate_bill, generate_act
 
 from .models import Organization, Dogovor, Service
 
@@ -11,9 +10,19 @@ def dashboard(request):
     organization_list = Organization.objects.all()
     dogovor_list = Dogovor.objects.all()
     service_list = Service.objects.all()
-    return render(request, 'Accounting/dashboard.html',
-                  {'title': 'Сводка', 'organization_list': organization_list,
-                   'dogovor_list': dogovor_list, 'service_list': service_list})
+    # Добавляем в список услгу расчет периода
+    for el in service_list:
+        el.period = (el.date_end - el.date_start).days + 1
+    # Добавляем в список услгу расчет задолженности
+    for el in service_list:
+        el.debt = el.price - el.payment_made
+
+    content = {
+        'organization_list': organization_list,
+        'dogovor_list': dogovor_list,
+        'service_list': service_list
+    }
+    return render(request, 'Accounting/dashboard.html', content)
 
 
 # Create your views here.
@@ -21,9 +30,15 @@ def index(request):
     organization_list = Organization.objects.all()
     dogovor_list = Dogovor.objects.all()
     service_list = Service.objects.all()
-    return render(request, 'Accounting/index.html',
-                  {'title': 'Главная страница сайта', 'organization_list': organization_list,
-                   'dogovor_list': dogovor_list, 'service_list': service_list})
+
+
+    content = {
+        'title': 'Главная страница сайта',
+        'organization_list': organization_list,
+        'dogovor_list': dogovor_list,
+        'service_list': service_list
+    }
+    return render(request, 'Accounting/index.html', content)
 
 
 
@@ -31,7 +46,6 @@ def index(request):
 
 def about(request):
     print("Так можно! Просто функция в представлении!")
-
     return render(request, 'Accounting/about.html')
 
 
@@ -48,6 +62,9 @@ def organization_detail(request, pk):
     for el in service_list:
         el.debt = el.price - el.payment_made
     # Добавляем в список услгу расчет периода
+    for el in service_list:
+        el.period = (el.date_end - el.date_start).days + 1
+    # Считаем задолженность по договору
     for el in service_list:
         el.period = (el.date_end - el.date_start).days + 1
 
@@ -97,6 +114,12 @@ def dogovor_detail(request, pk):
     # Функция запускает детальную страницу Договра
     dogovor_list = Dogovor.objects.get(id=pk)
     service_list = Service.objects.filter(dogovor=dogovor_list)
+    # Добавляем в список услгу расчет периода
+    for el in service_list:
+        el.period = (el.date_end - el.date_start).days + 1
+    # Добавляем в список услгу расчет задолженности
+    for el in service_list:
+        el.debt = el.price - el.payment_made
     context = {
         'dogovor_list': dogovor_list,
         'service_list': service_list
@@ -208,3 +231,38 @@ def service_create(request):
         'error': error
     }
     return render(request, 'Accounting/service-create.html', context)
+
+
+def service_generate_bill(request, pk):
+    service_list = Service.objects.get(id=pk)
+    dogovor_list = Dogovor.objects.get(id=service_list.dogovor.id)
+    generate_bill(dogovor_list, service_list)
+    # Блок - Скачиваем файл в браузере
+    # Генерируем имя конечного файла
+    file_name = f'{service_list.dogovor.organization.short_name} bill N {service_list.id} {service_list.service_name}'
+    file_name = translit(file_name)  # Переводим в транслит, тк с кириллицей проблемы.
+    # Создайте объект HttpResponse, чтобы отправить файл в браузер
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f"attachment; filename={file_name}.docx"
+    # Откройте созданный файл и запишите его содержимое в ответ
+    with open("static/Generate/generated.docx", "rb") as f:
+        response.write(f.read())
+    return response
+
+def service_generate_act(request, pk):
+    service_list = Service.objects.get(id=pk)
+    dogovor_list = Dogovor.objects.get(id=service_list.dogovor.id)
+    generate_act(dogovor_list, service_list)
+    # Блок - Скачиваем файл в браузере
+    # Генерируем имя конечного файла
+    file_name = f'{service_list.dogovor.organization.short_name} Act N {service_list.id} {service_list.service_name}'
+    file_name = translit(file_name)  # Переводим в транслит, тк с кириллицей проблемы.
+    # Создайте объект HttpResponse, чтобы отправить файл в браузер
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f"attachment; filename={file_name}.docx"
+    # Откройте созданный файл и запишите его содержимое в ответ
+    with open("static/Generate/generated.docx", "rb") as f:
+        response.write(f.read())
+    return response

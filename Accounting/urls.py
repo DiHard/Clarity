@@ -16,5 +16,6 @@ urlpatterns = [
     path('service/create/', views.service_create, name='service-create'),
     path('service/<int:pk>/', views.service_detail, name='service-detail'),
     path('service/<int:pk>/edit/', views.service_edit, name='service-edit'),
-    # path('service/<int:pk>/generate/', views.service_generate, name='service-generate'),
+    path('service/<int:pk>/generate-bill/', views.service_generate_bill, name='service-generate-bill'),
+    path('service/<int:pk>/generate-act/', views.service_generate_act, name='service-generate-act'),
 ]
