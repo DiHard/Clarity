@@ -13,9 +13,8 @@
  <div class="card border-light shadow p-3 bg-body rounded">
 <div class="card-body">
     <h5 class="card-title">{{ el.short_name }}</h5>
-    <h6 class="card-subtitle mb-2 text-body-secondary">{{ el.inn }}</h6>
-    <p class="card-text">Общие заметки по организации</p>
-    <a class="card-link" href="/organization/{{ el.id }}"> Перейти в карточку организации </a>
+    <p class="card-subtitle mb-2 text-body-secondary">ИНН: {{ el.inn }}</p>
+    <a class="link-underline-light" href="/organization/{{ el.id }}"> Перейти в карточку организации </a>
 </div>
      </div>
           </div>
@@ -28,31 +27,22 @@
 <div class="row row-cols-1 row-cols-md-2 g-4">
 {% for el in dogovor_list %}
 <div class="col">
-<div class="card border-light shadow p-3 bg-body rounded">
-<div class="card-body">
-
-    <h5 class="card-title">{{ el.nomer_dogovora }}</h5>
-    <a class="card-link" href="/dogovor/{{ el.id }}"> Перейти в карточку договора </a>
-</div>
- </div>
-    </div>
-{% endfor %}
-</div>
-</br>
-<h1>Оказываемые услуги</h1>
-</br>
-<div class="row row-cols-1 row-cols-md-2 g-4">
-{% for el in service_list %}
-      <div class="col">
- <div class="card border-light shadow p-3 bg-body rounded">
-<div class="card-body">
-
-    <a href="/service/{{ el.id }}">{{ el.price }} </a>
-    <p>Период: с {{ el.date_start }} по {{ el.date_end }}.</p>
-
-</div>
-     </div>
-     </div>
+                <div class="card border-light shadow bg-body rounded">
+                    <div class="pt-3 ps-3 pe-3 row">
+                        <p class="col-8"><span class="fs-5 fw-bold">{{ el.nomer_dogovora }}</span> от {{ el.date_of_signing }}</p>
+                        <p class="col-4 text-end">
+                            {% if el.contract_completed is True %}
+                            🟢
+                            {% else %}
+                            🔴
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <a class="link-underline-light" href="/dogovor/{{ el.id }}"> Перейти в карточку договора </a>
+                    </div>
+                </div>
+            </div>
 {% endfor %}
 </div>
 {% endblock %}

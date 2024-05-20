@@ -1,21 +1,79 @@
 {% extends 'Accounting/base.html' %}
 
 
-{% block title %}Станица о нас{% endblock %}
+{% block title %}Информация об услуге{% endblock %}
 
 
-{% block content %}<h1>Договор</h1>
+{% block content %}<h1 class="mb-4">Услуга</h1>
 
+<div class="card border-light shadow p-3 bg-body rounded">
+    <h4 class="ms-2">Информация об услуге</h4>
+        <table class="table table-hover ">
+<tbody>
+    <tr>
+      <td width="20%" >Услуга:</td>
+      <td>{{ service_list.service_name }}</td>
+    </tr>
+    <tr>
+      <td width="20%" >Период:</td>
+      <td>{{ service_list.period }} календарных дней. С {{ service_list.date_start }} по {{ service_list.date_end }}.</td>
+    </tr>
+    <tr>
+      <td width="20%" >Задолженность:</td>
+      <td>{{ service_list.debt }} рублей</td>
+    </tr>
+    <tr>
+    <tr>
+      <td width="20%" >Сумма по счету:</td>
+      <td>{{ service_list.price }} рублей </td>
+    </tr>
+    <tr>
+      <td width="20%" >Частичная оплата счета:</td>
+      <td>{{ service_list.payment_made }} рублей</td>
+    </tr>
+    <tr>
+      <td width="20%" >Договор:</td>
+      <td><a class="link-underline-light" href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a>
+    </td>
+    </tr>
+    <tr>
+      <td width="20%" >Организация:</td>
+      <td><a class="link-underline-light" href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></td>
+    </tr>
+    <tr>
+      <td width="20%" >Счет полностью оплачен:</td>
+      <td>{{ service_list.full_payment }}</td>
+    </tr>
+    <tr>
+      <td width="20%" >Акт подписан:</td>
+      <td>{{ service_list.act_approved }}</td>
+    </tr>
+</tbody>
+</table>
 
-
-<div class="alert alert-warning mt-2">
-    <h3>{{ service_list.price }}</h3>
-   <p> Договор
-       <a href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a> -
-    {{ service_list.service_name }}
-   </p>
-    <p>Период: с {{ service_list.date_start }} по {{ service_list.date_end }}.</p>
-    <p>Организация: <a href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></p>
+<div class="d-grid gap-2 d-md-block">
+  <a class="btn btn-outline-primary btn-sm mb-2" role="button" href="{% url 'service-edit' service_list.pk %}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+      </svg>
+      Редактировать информацию об услуге
+  </a>
+  <a class="btn btn-outline-success btn-sm mb-2" role="button" href="{% url 'service-generate-bill' service_list.pk %}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+          <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+        </svg>
+      Сгенерировать счет в формате docx
+  </a>
+  <a class="btn btn-outline-danger btn-sm mb-2" role="button" href="{% url 'service-generate-act' service_list.pk %}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 0 16 16">
+          <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+      </svg>
+      Сгенерировать Акт в формате docx
+  </a>
+</div>
 
 </div>
 

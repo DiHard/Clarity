@@ -1,0 +1,57 @@
+{% extends 'Accounting/base.html' %}
+
+
+{% block title %}Редактировать услугу{% endblock %}
+
+
+{% block content %}
+<h1 class="mb-4">Редактировать услугу</h1>
+<div class="card border-light shadow p-3 bg-body rounded">
+    <h4 class="ms-2">Редактировать данные услуги </h4>
+  <div class="m-2">
+<form method="POST">
+    {% csrf_token %}
+<div class="mb-3">
+    <label class="form-label">Название услуги для счета и Акта</label>
+{{ form.service_name }}
+</div>
+<div class="mb-3">
+    <label class="form-label">Дата начала</label>
+{{ form.date_start }}
+</div>
+<div class="mb-3">
+    <label class="form-label">Дата окончания</label>
+{{ form.date_end }}
+</div>
+<div class="mb-3">
+    <label class="form-label">Сумма счета</label>
+{{ form.price }}
+</div>
+<div class="mb-3">
+    <label class="form-label">Частичная оплата по счету</label>
+{{ form.payment_made }}
+</div>
+<div class="mb-3">
+    <label class="form-label">Договор</label>
+{{ form.dogovor }}
+</div>
+<div class="form-check mb-3">
+  {{ form.full_payment }}
+  <label class="form-check-label">Счет полностью оплачен</label>
+</div>
+<div class="form-check mb-3">
+  {{ form.act_approved }}
+  <label class="form-check-label">Акт подписан</label>
+</div>
+
+<div class="d-grid gap-2 d-md-block">
+     <button type="submit"  class="btn btn-success" type="button">Сохранить</button>
+     <a class="btn btn-light" href="/service/{{ service.id }}">Отмена</a>
+<span class="text-danger ms-3 fs-5" >{{ error }}</span>
+</div>
+</form>
+
+</div>
+</div>
+
+{% endblock %}
