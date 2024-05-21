@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import OrganizationForm, DogovorForm, ServiceForm
 from .generate import generate, translit, generate_bill, generate_act
-from dadata import Dadata
+from dadata import Dadata # pip install dadata
 from .models import Organization, Dogovor, Service
 
 

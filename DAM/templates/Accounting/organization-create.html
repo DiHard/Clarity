@@ -7,8 +7,24 @@
 {% block content %}
 <h1 class="mb-4">Создать новую компанию</h1>
 
+<div class="card border-light shadow p-3 bg-body rounded mb-4">
+    <h4 class="ms-2">Добавьте организацию по ИНН</h4>
+  <div class="m-2">
+       <input class="form-control mb-3" placeholder="0000000000" type="text" id="input">
+  <button class="btn btn-primary" type="button" onclick="go()">Добавить</button>
+
+  <script>
+    function go() {
+      var url = "/organization/create/add-by-inn/";
+      var inputValue = document.getElementById("input").value;
+      window.location.href = url + inputValue;
+    }
+  </script>
+      </div>
+      </div>
+
 <div class="card border-light shadow p-3 bg-body rounded">
-    <h4 class="ms-2">Заполните реквизиты организации </h4>
+    <h4 class="ms-2">Или заполните реквизиты организации вручную</h4>
   <div class="m-2">
 <form method="post">
     {% csrf_token %}
@@ -51,7 +67,7 @@
       </div>
 
   <div class="d-grid gap-2 d-md-block">
-      <button type="submit"  class="btn btn-primary" type="button">Добавить</button>
+      <button type="submit"  class="btn btn-primary" type="button">Сохранить</button>
   <a class="btn btn-light" href="/">Отмена</a>
 <span class="text-danger ms-3 fs-5" >{{ error }}</span>
 </div>
