@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import OrganizationForm, DogovorForm, ServiceForm
 from .generate import generate, translit, generate_bill, generate_act
-
+from dadata import Dadata
 from .models import Organization, Dogovor, Service
 
 
@@ -91,6 +91,43 @@ def organization_edit(request, pk):
         'error': error
     }
     return render(request, 'Accounting/organization-edit.html', context)
+
+def organization_create_by_inn(request, pk):
+    # Добавление организации по id
+    dadata = Dadata('0fc7d60da65943f6aa3ba2f4a289b50bc024d18f')
+    result_company = dadata.find_by_id("party", pk)
+    error = ''
+    try:
+        result_company[0]['data']['inn'] == pk
+    except ValueError:
+        error = 'Произошла ошибка сохранения: форма содержала некоректные данные (ValueError)'
+    except IndexError:
+        error = 'Произошла ошибка сохранения: форма содержала некоректные данные (IndexError)'
+    else:
+        form = Organization(
+            full_name=result_company[0]['data']['name']['full_with_opf'],
+            short_name=result_company[0]['data']['name']['short_with_opf'],
+            inn=result_company[0]['data']['inn'],
+            kpp=result_company[0]['data']['kpp'],
+            ur_adres=result_company[0]['data']['address']['unrestricted_value'],
+            management_full_name=result_company[0]['data']['management']['name'].lower().capitalize(),
+            management_post=result_company[0]['data']['management']['post'].lower().capitalize()
+        )
+
+        form.save()
+
+        # Получаем id только что созданной записи
+        # new_organization_id = form.id
+
+        return redirect('organization-detail', pk=form.id)
+
+
+    context = {
+
+        'error': error
+    }
+    return render(request, 'Accounting/about.html', context)
+
 
 def organization_create(request):
     error = ''

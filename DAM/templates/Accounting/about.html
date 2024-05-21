@@ -7,5 +7,14 @@
 {% block content %}<h1>Страница о нас</h1>
 
 <a href="/">Главная</a>
+  <input type="text" id="input">
+  <button type="button" onclick="go()">Перейти</button>
 
+  <script>
+    function go() {
+      var url = "/organization/create/add-by-inn/";
+      var inputValue = document.getElementById("input").value;
+      window.location.href = url + inputValue;
+    }
+  </script>
 {% endblock %}
