@@ -45,7 +45,7 @@ def index(request):
 
 
 def about(request):
-    print("Так можно! Просто функция в представлении!")
+    print("Это вторая ветка")
     return render(request, 'Accounting/about.html')
 
 
