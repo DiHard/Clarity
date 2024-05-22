@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import OrganizationForm, DogovorForm, ServiceForm
@@ -40,10 +41,7 @@ def index(request):
     }
     return render(request, 'Accounting/index.html', content)
 
-
-
-
-
+@login_required
 def about(request):
     print("Это вторая ветка")
     return render(request, 'Accounting/about.html')
