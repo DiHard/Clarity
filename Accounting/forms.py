@@ -109,3 +109,6 @@ class ServiceForm(ModelForm):
                 'type': 'checkbox'
                 })
         }
+
+
+

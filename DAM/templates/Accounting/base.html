@@ -88,12 +88,12 @@
             <li><a class="dropdown-item" href="{% url 'service-create' %}">Услугу</a></li>
           </ul>
         </li>
-<!--      <li>-->
-<!--        <a href="{% url 'about' %}" class="nav-link link-body-emphasis">-->
-<!--          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>-->
-<!--          О нас-->
-<!--        </a>-->
-<!--      </li>-->
+      <li>
+        <a href="{% url 'about' %}" class="nav-link link-body-emphasis">
+          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+          О нас
+        </a>
+      </li>
 
 <!--      <li>-->
 <!--        <a href="#" class="nav-link link-body-emphasis">-->
@@ -120,7 +120,8 @@
         </a>
       </li>
     </ul>
-
+<hr>
+ <p>Авторизованный пользователь: {{ user.get_username }}</p>
 <!--    <div class="dropdown">-->
 <!--      <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
 <!--        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">-->
