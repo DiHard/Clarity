@@ -1,5 +1,5 @@
 from .models import Organization, Dogovor, Service
-from django.forms import ModelForm, TextInput, DateInput, URLInput, CheckboxInput, Select
+from django.forms import ModelForm, TextInput, DateInput, CheckboxInput, Select
 
 
 class OrganizationForm(ModelForm):

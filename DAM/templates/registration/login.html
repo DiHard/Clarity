@@ -24,39 +24,21 @@
 {% endif %}
 
 
-    <form>
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
       <h1 class="h2 mb-3 fw-normal text-center">Проект Clarity</h1>
       <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-        <label for="floatingInput">Логин</label>
+        {{ form.username }}
+        <label>Логин</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-        <label for="floatingPassword">Пароль</label>
+        {{ form.password }}
+        <label>Пароль</label>
       </div>
       <button class="btn btn-primary w-100 py-2" type="submit">Вход</button>
       <p class="mt-3 mb-3 text-body-secondary">© 2024</p>
     </form>
-
-
-
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-
-<tr>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</tr>
-
-<tr>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login" />
-</form>
 
 
   </main>
