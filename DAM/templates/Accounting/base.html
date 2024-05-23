@@ -113,28 +113,25 @@
 <!--          Customers-->
 <!--        </a>-->
 <!--      </li>-->
+      <hr>
       <li>
         <a href="/admin" class="nav-link link-body-emphasis">
           <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
           Админка
         </a>
       </li>
+      <li>
+        <form action="{% url 'logout' %}" method="post">
+             {% csrf_token %}
+             <button type="submit" href="{% url 'logout' %}" class="nav-link link-body-emphasis">
+                  <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+                  Выход
+             </button>
+        </form>
+      </li>
     </ul>
 <hr>
  <p>Авторизованный пользователь: {{ user.get_username }}</p>
-<!--    <div class="dropdown">-->
-<!--      <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">-->
-<!--        <strong>mdo</strong>-->
-<!--      </a>-->
-<!--      <ul class="dropdown-menu text-small shadow">-->
-<!--        <li><a class="dropdown-item" href="#">New project...</a></li>-->
-<!--        <li><a class="dropdown-item" href="#">Settings</a></li>-->
-<!--        <li><a class="dropdown-item" href="#">Profile</a></li>-->
-<!--        <li><hr class="dropdown-divider"></li>-->
-<!--        <li><a class="dropdown-item" href="#">Sign out</a></li>-->
-<!--      </ul>-->
-<!--    </div>-->
   </div>
 <!--    Конец. Основное меню сайта справа -->
 <!--    Контент сайта -->
