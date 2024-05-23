@@ -11,19 +11,6 @@
 <body class="d-flex align-items-center py-4 bg-body-tertiary" >
   <main class="form-signin w-100 m-auto">
 
-        {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-  {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-  {% else %}
-<!--    <p>Please login to see this page.</p>-->
-  {% endif %}
-{% endif %}
-
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
       <h1 class="h2 mb-3 fw-normal text-center">Проект Clarity</h1>
@@ -35,8 +22,24 @@
       </div>
       <button class="btn btn-primary w-100 py-2" type="submit">Вход</button>
       <p class="mt-3 mb-3 text-body-secondary">© 2024</p>
+       {% if form.errors %}
+  <p>Несуществующие имя пользователя или пароль. Пожалуйста, попробуйте еще раз.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>У аккаунта нет доступа к этой странице. Продолжать,
+     пожалуйста, войдите в учетную запись, у которой есть доступ.</p>
+  {% else %}
+<!--    <p>Чтобы увидеть эту страницу, войдите в систему.</p>-->
+  {% endif %}
+{% endif %}
     </form>
+
+
+
   </main>
+
 
        <script>
     document.getElementById("id_username").placeholder = "Логин";

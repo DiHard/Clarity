@@ -6,7 +6,7 @@ from .generate import generate, translit, generate_bill, generate_act
 from dadata import Dadata # pip install dadata
 from .models import Organization, Dogovor, Service
 
-
+@login_required
 def dashboard(request):
     organization_list = Organization.objects.all()
     dogovor_list = Dogovor.objects.all()
@@ -26,7 +26,7 @@ def dashboard(request):
     return render(request, 'Accounting/dashboard.html', content)
 
 
-# Create your views here.
+@login_required
 def index(request):
     organization_list = Organization.objects.all()
     dogovor_list = Dogovor.objects.all()
@@ -46,7 +46,7 @@ def about(request):
     print("Это вторая ветка")
     return render(request, 'Accounting/about.html')
 
-
+@login_required
 def organization_detail(request, pk):
     # Функция запускает детальную страницу Организации
     # создаем список, который содержит данные организации по переданному ID
@@ -71,6 +71,7 @@ def organization_detail(request, pk):
                   {'organization_list': organization_list, 'dogovor_list': dogovor_list,
                    'service_list': service_list})
 
+@login_required
 def organization_edit(request, pk):
     # Редактирование договора
     organization = Organization.objects.get(id=pk)
@@ -90,6 +91,7 @@ def organization_edit(request, pk):
     }
     return render(request, 'Accounting/organization-edit.html', context)
 
+@login_required
 def organization_create_by_inn(request, pk):
     # Добавление организации по id
     dadata = Dadata('0fc7d60da65943f6aa3ba2f4a289b50bc024d18f')
@@ -127,6 +129,7 @@ def organization_create_by_inn(request, pk):
     return render(request, 'Accounting/about.html', context)
 
 
+@login_required
 def organization_create(request):
     error = ''
     if request.method == 'POST':
@@ -144,7 +147,7 @@ def organization_create(request):
     }
     return render(request, 'Accounting/organization-create.html', context)
 
-
+@login_required
 def dogovor_detail(request, pk):
     # Функция запускает детальную страницу Договра
     dogovor_list = Dogovor.objects.get(id=pk)
@@ -161,7 +164,7 @@ def dogovor_detail(request, pk):
     }
     return render(request, 'Accounting/dogovor-detail.html', context)
 
-
+@login_required
 def dogovor_edit(request, pk):
     # Редактирование договора
     dogovor = Dogovor.objects.get(id=pk)
@@ -182,7 +185,7 @@ def dogovor_edit(request, pk):
     return render(request, 'Accounting/dogovor-edit.html', context)
 
 
-
+@login_required
 def dogovor_create(request):
     error = ''
     if request.method == 'POST':
@@ -200,6 +203,7 @@ def dogovor_create(request):
     }
     return render(request, 'Accounting/dogovor-create.html', context)
 
+@login_required
 def dogovor_generate(request, pk):
     dogovor_list = Dogovor.objects.get(id=pk)
     generate(dogovor_list)
@@ -219,7 +223,7 @@ def dogovor_generate(request, pk):
 
     return response
 
-
+@login_required
 def service_detail(request, pk):
     # Функция запускает детальную страницу Услуги
     service_list = Service.objects.get(id=pk)
@@ -229,7 +233,7 @@ def service_detail(request, pk):
     service_list.debt = service_list.price - service_list.payment_made
     return render(request, 'Accounting/service-detail.html', {'service_list': service_list})
 
-
+@login_required
 def service_edit(request, pk):
     # Редактирование договора
     service = Service.objects.get(id=pk)
@@ -249,7 +253,7 @@ def service_edit(request, pk):
     }
     return render(request, 'Accounting/service-edit.html', context)
 
-
+@login_required
 def service_create(request):
     error = ''
     if request.method == 'POST':
@@ -267,7 +271,7 @@ def service_create(request):
     }
     return render(request, 'Accounting/service-create.html', context)
 
-
+@login_required
 def service_generate_bill(request, pk):
     service_list = Service.objects.get(id=pk)
     dogovor_list = Dogovor.objects.get(id=service_list.dogovor.id)
@@ -285,6 +289,7 @@ def service_generate_bill(request, pk):
         response.write(f.read())
     return response
 
+@login_required
 def service_generate_act(request, pk):
     service_list = Service.objects.get(id=pk)
     dogovor_list = Dogovor.objects.get(id=service_list.dogovor.id)
