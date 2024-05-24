@@ -203,6 +203,27 @@ def dogovor_create(request):
     }
     return render(request, 'Accounting/dogovor-create.html', context)
 
+
+@login_required
+def dogovor_create_target(request, pk):
+    organization = Organization.objects.get(id=pk)
+    error = ''
+    if request.method == 'POST':
+        form = DogovorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            error = 'Форма была неверной'
+
+    form = DogovorForm(initial={'organization': organization.short_name})
+    # form. = organization(initial={'tank': 123})
+    context = {
+        'form': form,
+        'error': error
+    }
+    return render(request, 'Accounting/dogovor-create.html', context)
+
 @login_required
 def dogovor_generate(request, pk):
     dogovor_list = Dogovor.objects.get(id=pk)

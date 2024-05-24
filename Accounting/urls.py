@@ -11,6 +11,7 @@ urlpatterns = [
     path('organization/<int:pk>/', views.organization_detail, name='organization-detail'),
     path('organization/<int:pk>/edit/', views.organization_edit, name='organization-edit'),
     path('dogovor/create/', views.dogovor_create, name='dogovor-create'),
+    path('dogovor/create/<int:pk>/', views.dogovor_create_target, name='dogovor-create-target'),
     path('dogovor/<int:pk>/', views.dogovor_detail, name='dogovor-detail'),
     path('dogovor/<int:pk>/edit/', views.dogovor_edit, name='dogovor-edit'),
     path('dogovor/<int:pk>/generate/', views.dogovor_generate, name='dogovor-generate'),
