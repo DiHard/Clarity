@@ -67,7 +67,7 @@
 
 <main class="d-flex flex-nowrap">
 <!--    Основное меню сайта справа -->
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 280px; min-height: 100vh;">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-white shadow" style="width: 260px; min-height: 100vh;">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-file-earmark-text-fill me-2 ms-2" viewBox="0 0 16 16">
             <use xlink:href="#logo"></use>
@@ -78,26 +78,26 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="{% url 'home' %}" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+        <a href="{% url 'home' %}" class="nav-link link-body-emphasis" style="font-size: 1rem !important">
+          <svg class="bi pe-none me-1 mb-2" width="22" height="22"><use xlink:href="#home"></use></svg>
           Главная страница
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'dashboard' %}" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#graph"></use></svg>
+        <a href="{% url 'dashboard' %}" class="nav-link link-body-emphasis"  style="font-size: 1rem !important">
+          <svg class="bi pe-none me-1 mb-2" width="22" height="22"><use xlink:href="#graph"></use></svg>
           Дашборд
         </a>
       </li>
       <li class="nav-item">
-        <a href="{% url 'organizations' %}" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#organization"></use></svg>
+        <a href="{% url 'organizations' %}" class="nav-link link-body-emphasis" style="font-size: 1rem !important">
+          <svg class="bi pe-none me-1 mb-2" width="22" height="22"><use xlink:href="#organization"></use></svg>
           Организации
         </a>
       </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle link-body-emphasis" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#logo"></use></svg>
+          <a class="nav-link dropdown-toggle link-body-emphasis" style="font-size: 1rem !important" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <svg class="bi pe-none me-1 mb-2" width="22" height="22"><use xlink:href="#logo"></use></svg>
             Создать
           </a>
           <ul class="dropdown-menu">
@@ -122,8 +122,8 @@
       <li>
         <form action="{% url 'logout' %}" method="post">
              {% csrf_token %}
-             <button type="submit" href="{% url 'logout' %}" class="nav-link link-body-emphasis">
-                  <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#logout"></use></svg>
+             <button type="submit" href="{% url 'logout' %}" class="nav-link link-body-emphasis" style="font-size: 1rem !important">
+                  <svg class="bi pe-none me-1 mb-1" width="22" height="22"><use xlink:href="#logout"></use></svg>
                   Выход
              </button>
         </form>

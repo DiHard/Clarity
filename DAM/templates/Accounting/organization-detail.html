@@ -88,6 +88,7 @@
     <table class="table table-sm fs-10 mb-0 overflow-hidden">
         <thead >
             <tr>
+                <th class="bg-secondary-subtle">Счет</th>
                 <th class="bg-secondary-subtle">Дата начала</th>
                 <th class="bg-secondary-subtle">Период</th>
                 <th class="bg-secondary-subtle">Договор</th>
@@ -101,6 +102,7 @@
 {% for el in service_list %}
 {% if el.full_payment is False %}
 <tr>
+    <td>№ {{ el.id }}</td>
     <td>{{ el.date_start }}</td>
     <td>{{ el.period }} дней</td>
     <td><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/dogovor/{{ el.dogovor.id }}">{{ el.dogovor.nomer_dogovora }}</a> </td>
