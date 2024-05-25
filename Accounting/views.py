@@ -47,7 +47,7 @@ def organizations(request):
 @login_required
 def index(request):
     organization_list = Organization.objects.all().order_by('-id')[:4]
-    dogovor_list = Dogovor.objects.all().order_by('-id')[:6]
+    dogovor_list = Dogovor.objects.all().order_by('-id')[:4]
     service_list = Service.objects.all()
     content = {
         'title': 'Главная страница сайта',
