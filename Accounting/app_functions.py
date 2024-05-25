@@ -20,7 +20,9 @@ def add_bu_inn(inn):
         print(result[0]['data']['name']['full_with_opf'])
         print(result[0]['data']['name']['short_with_opf'])
         print(result[0]['data']['management']['post'].lower().capitalize())
-        print(result[0]['data']['management']['name'].lower().capitalize())
+        print(result[0]['data']['management']['name'].lower().title())
         print(result[0]['data']['address']['unrestricted_value'])
         print(result[0]['data']['ogrn'])
         print(result[0]['data']['kpp'])
+
+add_bu_inn(inn)

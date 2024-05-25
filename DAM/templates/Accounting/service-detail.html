@@ -33,20 +33,20 @@
     </tr>
     <tr>
       <td width="20%" >Договор:</td>
-      <td><a class="link-underline-light" href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a>
+      <td><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/dogovor/{{ service_list.dogovor.id }}">{{ service_list.dogovor.nomer_dogovora }}</a>
     </td>
     </tr>
     <tr>
       <td width="20%" >Организация:</td>
-      <td><a class="link-underline-light" href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></td>
+      <td><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/organization/{{ service_list.dogovor.organization.id }}">{{ service_list.dogovor.organization }}</a></td>
     </tr>
     <tr>
       <td width="20%" >Счет полностью оплачен:</td>
-      <td>{{ service_list.full_payment }}</td>
+      <td>{% if service_list.full_payment is True %}✅ да{% else %}❌ нет{% endif %}</td>
     </tr>
     <tr>
       <td width="20%" >Акт подписан:</td>
-      <td>{{ service_list.act_approved }}</td>
+      <td>{% if service_list.act_approved is True %}✅ да{% else %}❌ нет{% endif %}</td>
     </tr>
 </tbody>
 </table>

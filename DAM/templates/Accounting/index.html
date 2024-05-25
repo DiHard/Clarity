@@ -14,11 +14,12 @@
 <div class="card-body">
     <h5 class="card-title">{{ el.short_name }}</h5>
     <p class="card-subtitle mb-2 text-body-secondary">ИНН: {{ el.inn }}</p>
-    <a class="link-underline-light" href="/organization/{{ el.id }}"> Перейти в карточку организации </a>
+    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/organization/{{ el.id }}"> Перейти в карточку организации </a>
 </div>
      </div>
           </div>
 {% endfor %}
+    <a class="ms-4 link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/organizations/">Смотреть все организации</a>
 
      </div>
 </br></br>
@@ -29,7 +30,7 @@
 <div class="col">
                 <div class="card border-light shadow bg-body rounded">
                     <div class="pt-3 ps-3 pe-3 row">
-                        <p class="col-8"><span class="fs-5 fw-bold">{{ el.nomer_dogovora }}</span> от {{ el.date_of_signing }}</p>
+                        <p class="col-8"><span class="fs-5 fw-semibold">{{ el.nomer_dogovora }}</span> от {{ el.date_of_signing }}</p>
                         <p class="col-4 text-end">
                             {% if el.contract_completed is True %}
                             🟢
@@ -38,8 +39,9 @@
                             {% endif %}
                         </p>
                     </div>
-                    <div class="card-body">
-                        <a class="link-underline-light" href="/dogovor/{{ el.id }}"> Перейти в карточку договора </a>
+                    <div class="card-body" style="display: flex; justify-content: space-between;">
+                        <p>Организация: {{ el.organization }}</p>
+                        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/dogovor/{{ el.id }}"> Перейти в карточку договора </a>
                     </div>
                 </div>
             </div>

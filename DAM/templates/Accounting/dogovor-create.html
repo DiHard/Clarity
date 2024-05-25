@@ -44,7 +44,7 @@
 
 <div class="d-grid gap-2 d-md-block">
       <button type="submit"  class="btn btn-primary" type="button">Добавить</button>
-  <a class="btn btn-light" href="/">Отмена</a>
+  <a class="btn btn-light" href="{% if organization.id > 0 %}/organization/{{ organization.id }}/{% else %}/{% endif %}">Отмена</a>
 <span class="text-danger ms-3 fs-5" >{{ error }}</span>
 </div>
 </form>

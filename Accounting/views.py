@@ -5,6 +5,7 @@ from .forms import OrganizationForm, DogovorForm, ServiceForm
 from .generate import generate, translit, generate_bill, generate_act
 from dadata import Dadata # pip install dadata
 from .models import Organization, Dogovor, Service
+import datetime
 
 @login_required
 def dashboard(request):
@@ -17,7 +18,6 @@ def dashboard(request):
     # Добавляем в список услгу расчет задолженности
     for el in service_list:
         el.debt = el.price - el.payment_made
-
     content = {
         'organization_list': organization_list,
         'dogovor_list': dogovor_list,
@@ -25,14 +25,30 @@ def dashboard(request):
     }
     return render(request, 'Accounting/dashboard.html', content)
 
-
 @login_required
-def index(request):
+def organizations(request):
     organization_list = Organization.objects.all()
     dogovor_list = Dogovor.objects.all()
     service_list = Service.objects.all()
+    # Добавляем в список услгу расчет периода
+    for el in service_list:
+        el.period = (el.date_end - el.date_start).days + 1
+    # Добавляем в список услгу расчет задолженности
+    for el in organization_list:
+        el.doc_count = Dogovor.objects.filter(organization=el.id).count()
+    content = {
+        'organization_list': organization_list,
+        'dogovor_list': dogovor_list,
+        'service_list': service_list
+    }
+    return render(request, 'Accounting/organizations.html', content)
 
 
+@login_required
+def index(request):
+    organization_list = Organization.objects.all().order_by('-id')[:4]
+    dogovor_list = Dogovor.objects.all().order_by('-id')[:6]
+    service_list = Service.objects.all()
     content = {
         'title': 'Главная страница сайта',
         'organization_list': organization_list,
@@ -110,20 +126,14 @@ def organization_create_by_inn(request, pk):
             inn=result_company[0]['data']['inn'],
             kpp=result_company[0]['data']['kpp'],
             ur_adres=result_company[0]['data']['address']['unrestricted_value'],
-            management_full_name=result_company[0]['data']['management']['name'].lower().capitalize(),
+            management_full_name=result_company[0]['data']['management']['name'].lower().title(),
             management_post=result_company[0]['data']['management']['post'].lower().capitalize()
         )
-
         form.save()
-
         # Получаем id только что созданной записи
         # new_organization_id = form.id
-
         return redirect('organization-detail', pk=form.id)
-
-
     context = {
-
         'error': error
     }
     return render(request, 'Accounting/about.html', context)
@@ -135,8 +145,8 @@ def organization_create(request):
     if request.method == 'POST':
         form = OrganizationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            obj = form.save()
+            return redirect('organization-detail', pk=obj.id)
         else:
             error = 'Форма была неверной'
 
@@ -191,12 +201,11 @@ def dogovor_create(request):
     if request.method == 'POST':
         form = DogovorForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            obj = form.save()
+            return redirect('dogovor-detail', pk=obj.id)
         else:
             error = 'Форма была неверной'
-
-    form = DogovorForm()
+    form = DogovorForm(initial={'contract_completed': "true"})
     context = {
         'form': form,
         'error': error
@@ -211,15 +220,14 @@ def dogovor_create_target(request, pk):
     if request.method == 'POST':
         form = DogovorForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            obj = form.save()
+            return redirect('dogovor-detail', pk=obj.id)
         else:
             error = 'Форма была неверной'
-
-    form = DogovorForm(initial={'organization': organization.short_name})
-    # form. = organization(initial={'tank': 123})
+    form = DogovorForm(initial={'organization': organization.id, 'contract_completed': "true", 'date_of_signing': datetime.datetime.now().strftime ("%d.%m.%Y")})
     context = {
         'form': form,
+        'organization': organization,
         'error': error
     }
     return render(request, 'Accounting/dogovor-create.html', context)
@@ -280,14 +288,34 @@ def service_create(request):
     if request.method == 'POST':
         form = ServiceForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            obj = form.save()
+            return redirect('service-detail', pk=obj.id)
         else:
             error = 'Форма была неверной'
 
     form = ServiceForm()
     context = {
         'form': form,
+        'error': error
+    }
+    return render(request, 'Accounting/service-create.html', context)
+
+@login_required
+def service_create_target(request, pk):
+    dogovor = Dogovor.objects.get(id=pk)
+    error = ''
+    if request.method == 'POST':
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            return redirect('service-detail', pk=obj.pk)
+        else:
+            error = 'Форма была неверной'
+
+    form = ServiceForm(initial={'dogovor': dogovor.id, 'service_name': dogovor.service_type, 'price': dogovor.basic_price, 'payment_made': 0})
+    context = {
+        'form': form,
+        'dogovor': dogovor,
         'error': error
     }
     return render(request, 'Accounting/service-create.html', context)
