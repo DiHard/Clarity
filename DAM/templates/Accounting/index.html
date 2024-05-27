@@ -10,7 +10,7 @@
 <div class="row row-cols-1 row-cols-md-2 g-4">
 {% for el in organization_list %}
       <div class="col">
- <div class="card border-light shadow p-3 bg-body rounded">
+ <div class="card shadow p-3 rounded border-top-0 border-end-0 border-bottom-0 border-5 border-secondary">
 <div class="card-body">
     <h5 class="card-title">{{ el.short_name }}</h5>
     <p class="card-subtitle mb-2 text-body-secondary">ИНН: {{ el.inn }}</p>
@@ -28,7 +28,7 @@
 <div class="row row-cols-1 row-cols-md-2 g-4">
 {% for el in dogovor_list %}
 <div class="col">
-                <div class="card border-light shadow bg-body rounded">
+                <div class="card shadow rounded border-top-0 border-end-0 border-bottom-0 border-5 border-primary border-opacity-75">
                     <div class="pt-3 ps-3 pe-3 row">
                         <p class="col-8"><span class="fs-5 fw-semibold">{{ el.nomer_dogovora }}</span> от {{ el.date_of_signing }}</p>
                         <p class="col-4 text-end">
