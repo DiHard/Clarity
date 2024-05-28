@@ -57,11 +57,11 @@
     Редактировать информацию о договоре
   </a>
   <a class="btn btn-outline-success btn-sm mb-2" role="button" href="/dogovor/{{ dogovor_list.id }}/generate">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-word" viewBox="0 0 20 20">
-      <path d="M5.485 6.879a.5.5 0 1 0-.97.242l1.5 6a.5.5 0 0 0 .967.01L8 9.402l1.018 3.73a.5.5 0 0 0 .967-.01l1.5-6a.5.5 0 0 0-.97-.242l-1.036 4.144-.997-3.655a.5.5 0 0 0-.964 0l-.997 3.655L5.485 6.88z"/>
-      <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download me-1" viewBox="0 0 16 16">
+      <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+      <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
     </svg>
-    Сгенерировать договор в формате docx
+    Договор
   </a>
   <a class="btn btn-outline-warning btn-sm mb-2" role="button" href="{% url 'service-create-target' dogovor_list.pk %}">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-word" viewBox="0 0 20 20">
@@ -87,20 +87,20 @@
     <table class="table table-sm fs-10 mb-0 overflow-hidden">
         <thead >
             <tr>
-                <th class="bg-secondary-subtle">Счет</th>
+                <th class="bg-secondary-subtle text-center">Счет</th>
                 <th class="bg-secondary-subtle">Дата начала</th>
                 <th class="bg-secondary-subtle">Период</th>
                 <th class="bg-secondary-subtle">Договор</th>
                 <th class="bg-secondary-subtle">Услуга</th>
                 <th class="bg-secondary-subtle text-center">Сумма счета</th>
                 <th class="bg-secondary-subtle text-center">Задолженность</th>
-                <th class="bg-secondary-subtle text-center">Действия</th>
+                <th class="bg-secondary-subtle text-center">Скачать</th>
             </tr>
         </thead>
         <tbody>
 {% for el in service_list %}
 <tr>
-    <td>№ {{ el.id }}</td>
+    <td class="text-center"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'service-detail' el.pk %}">№ {{ el.id }}</a></td>
     <td>{{ el.date_start }}</td>
     <td>{{ el.period }} дней</td>
     <td><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/dogovor/{{ el.dogovor.id }}">{{ el.dogovor.nomer_dogovora }}</a> </td>
@@ -109,23 +109,11 @@
     <td class="text-center">{{ el.debt }}</td>
     <td class="text-center">
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-          <a title="Посмотреть подробней" role="button" class="btn btn-outline-warning btn-sm" href="{% url 'service-detail' el.pk %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 1 16 16">
-                  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
-                  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
-              </svg>
+          <a style="min-width: 47px;" title="Скачать Счет" role="button" class="btn btn-outline-success btn-sm" href="{% url 'service-generate-bill' el.pk %}">
+              Счет
           </a>
-          <a title="Скачать Счет" role="button" class="btn btn-outline-success btn-sm" href="{% url 'service-generate-bill' el.pk %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card" viewBox="0 1 16 16">
-              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
-              <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-            </svg>
-          </a>
-          <a title="Скачать Акт" role="button" class="btn btn-outline-success btn-sm" href="{% url 'service-generate-act' el.pk %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-check" viewBox="0 0 17 17">
-                  <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
-                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-              </svg>
+          <a style="min-width: 47px;" title="Скачать Акт" role="button" class="btn btn-outline-success btn-sm" href="{% url 'service-generate-act' el.pk %}">
+          Акт
           </a>
         </div>
     </td>
